@@ -1,0 +1,12 @@
+
+@keyframes priceWave {
+  0%   { transform: translateY(0); opacity: 1; }
+  25%  { transform: translateY(-3px); opacity: 0.8; }
+  50%  { transform: translateY(0); opacity: 1; }
+  75%  { transform: translateY(3px); opacity: 0.8; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.price-wave {
+  animation: priceWave 1.2s ease-in-out infinite;
+}
