@@ -532,15 +532,67 @@ const data = [
     }
 ]
 
-data.forEach(pro => {
+const products = document.getElementById("products");
+const paginations = document.getElementById("paginations");
+
+let starIndex = 0;
+let endIndex = 8;
+
+
+render();
+
+
+const totalPage = Math.ceil(data.length / 8);
+let currentPage = 1;
+
+for (let i = 1; i <= totalPage; i++) {
+    paginations.innerHTML += `
+    <button 
+        class="
+        ${currentPage === i ? "bg-gradient-to-r from-indigo-500 to-purple-600" : "bg-gray-200 text-gray-700"}
+        hover:from-indigo-400 hover:to-purple-500
+        hover:text-white
+        cursor-pointer
+        p-[10px_18px]
+        rounded-xl
+        mx-1
+        font-semibold
+        transition-all
+        duration-200
+        hover:scale-110
+        active:scale-90
+        shadow-md
+        hover:shadow-xl
+        relative
+        overflow-hidden
+        "
+        onclick="getPage(${i})"
+    >
+        ${i}
+        
+        <!-- hover effect glow -->
+        <span class="absolute inset-0 bg-white opacity-0 hover:opacity-10 transition"></span>
+    </button>
+    `
+}
+
+function getPage(pagenum) {
+    starIndex = (pagenum - 1) * 8;
+    endIndex = pagenum * 8;
+    products.innerHTML = "";
+    render();
+};
+
+function render() {
+    data.slice(starIndex, endIndex).forEach(pro => {
     products.innerHTML += `
    <div class="border ${pro.price < 100 ? 'border-red-400' : 'border-[#ccc]'} p-6 shadow-lg rounded-2xl relative hover:shadow-2xl transition duration-300 overflow-hidden">
 
-    ${pro.price < 100 
-    ? `<span class="absolute top-6 right-[-50px] w-52 text-center text-white text-sm font-bold py-2 rotate-45 shadow-lg bg-red-600 animate-pulse">
+    ${pro.price < 100
+            ? `<span class="absolute top-6 right-[-50px] w-52 text-center text-white text-sm font-bold py-2 rotate-45 shadow-lg bg-red-600 animate-pulse">
         SALE 🔥
-       </span>` 
-    : ""}
+       </span>`
+            : ""}
 
     <img src="${pro.img}" class="w-full mb-3 rounded-xl hover:scale-105 transition duration-300"
     onerror="this.src='https://static.vecteezy.com/system/resources/previews/003/586/230/non_2x/no-photo-sign-sticker-with-text-inscription-on-isolated-background-free-vector.jpg'"
@@ -548,18 +600,19 @@ data.forEach(pro => {
 
     <h3 class="font-bold text-lg mb-1">${pro.name}</h3>
 
-    <p class="${pro.price < 100 
-    ? 'text-red-500 font-bold text-lg price-wave' 
-    : 'text-gray-600'}">
+    <p class="${pro.price < 100
+            ? 'text-red-500 font-bold text-lg price-wave'
+            : 'text-gray-600'}">
     💰 Price: ${pro.price} USD
     </p>
 
-    ${pro.price < 100 
-        ? `<p class="text-green-600 text-sm mt-1 font-semibold">
+    ${pro.price < 100
+            ? `<p class="text-green-600 text-sm mt-1 font-semibold">
             🔥 Limited offer!
-           </p>` 
-        : ""}
+           </p>`
+            : ""}
 
 </div>
     `
 });
+}
